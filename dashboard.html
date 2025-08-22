@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManaVisit - Gestion des Visiteurs | Zoo de Kinshasa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>ManaVisit</h1>
+            <p>Gestion des visiteurs - Jardin Zoologique de Kinshasa</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" id="dashboard-link">Tableau de Bord</a></li>
+                <li><a href="#" id="visitors-link">Visiteurs</a></li>
+                <li><a href="#" id="tickets-link">Billets</a></li>
+                <li><a href="#" id="reports-link">Rapports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard" class="active">
+            <h2>Tableau de Bord</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Visiteurs Aujourd'hui</h3>
+                    <p id="today-visitors">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Visiteurs ce Mois</h3>
+                    <p id="month-visitors">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Recettes Aujourd'hui</h3>
+                    <p id="today-revenue">0 $</p>
+                </div>
+            </div>
+            <div class="recent-visitors">
+                <h3>Visiteurs Récents</h3>
+                <table id="recent-visitors-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Type</th>
+                            <th>Heure d'Arrivée</th>
+                            <th>Billet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rempli dynamiquement par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="visitors">
+            <h2>Gestion des Visiteurs</h2>
+            <div class="controls">
+                <button id="add-visitor-btn">Ajouter un Visiteur</button>
+                <div class="search">
+                    <input type="text" id="visitor-search" placeholder="Rechercher un visiteur...">
+                    <button id="search-btn">Rechercher</button>
+                </div>
+            </div>
+            <table id="visitors-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Complet</th>
+                        <th>Type</th>
+                        <th>Nationalité</th>
+                        <th>Date de Visite</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rempli dynamiquement par JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="tickets">
+            <h2>Gestion des Billets</h2>
+            <div class="ticket-types">
+                <div class="ticket-type">
+                    <h3>Adulte</h3>
+                    <p>Prix: <span id="adult-price">10</span> $</p>
+                    <button class="edit-price-btn" data-type="adult">Modifier</button>
+                </div>
+                <div class="ticket-type">
+                    <h3>Enfant</h3>
+                    <p>Prix: <span id="child-price">5</span> $</p>
+                    <button class="edit-price-btn" data-type="child">Modifier</button>
+                </div>
+                <div class="ticket-type">
+                    <h3>Étudiant</h3>
+                    <p>Prix: <span id="student-price">7</span> $</p>
+                    <button class="edit-price-btn" data-type="student">Modifier</button>
+                </div>
+                <div class="ticket-type">
+                    <h3>Groupe</h3>
+                    <p>Prix: <span id="group-price">8</span> $ par personne</p>
+                    <button class="edit-price-btn" data-type="group">Modifier</button>
+                </div>
+            </div>
+            <div class="ticket-stats">
+                <h3>Statistiques des Ventes</h3>
+                <canvas id="ticket-sales-chart"></canvas>
+            </div>
+        </section>
+
+        <section id="reports">
+            <h2>Rapports</h2>
+            <div class="report-filters">
+                <div>
+                    <label for="report-type">Type de Rapport:</label>
+                    <select id="report-type">
+                        <option value="daily">Quotidien</option>
+                        <option value="weekly">Hebdomadaire</option>
+                        <option value="monthly">Mensuel</option>
+                        <option value="yearly">Annuel</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
+                <div id="custom-date-range" class="hidden">
+                    <label for="start-date">De:</label>
+                    <input type="date" id="start-date">
+                    <label for="end-date">À:</label>
+                    <input type="date" id="end-date">
+                </div>
+                <button id="generate-report-btn">Générer Rapport</button>
+            </div>
+            <div class="report-results">
+                <div id="report-summary">
+                    <!-- Résumé du rapport -->
+                </div>
+                <div id="report-details">
+                    <!-- Détails du rapport -->
+                </div>
+            </div>
+            <button id="export-report-btn" class="hidden">Exporter en PDF</button>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="visitor-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Ajouter un Nouveau Visiteur</h2>
+            <form id="visitor-form">
+                <input type="hidden" id="visitor-id">
+                <div class="form-group">
+                    <label for="full-name">Nom Complet:</label>
+                    <input type="text" id="full-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="visitor-type">Type de Visiteur:</label>
+                    <select id="visitor-type" required>
+                        <option value="adult">Adulte</option>
+                        <option value="child">Enfant</option>
+                        <option value="student">Étudiant</option>
+                        <option value="group">Groupe</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nationalité:</label>
+                    <input type="text" id="nationality" required>
+                </div>
+                <div class="form-group">
+                    <label for="visit-date">Date de Visite:</label>
+                    <input type="date" id="visit-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone:</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="comments">Commentaires:</label>
+                    <textarea id="comments"></textarea>
+                </div>
+                <button type="submit" id="save-visitor-btn">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="price-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Modifier le Prix du Billet</h2>
+            <form id="price-form">
+                <input type="hidden" id="ticket-type">
+                <div class="form-group">
+                    <label for="new-price">Nouveau Prix ($):</label>
+                    <input type="number" id="new-price" min="0" step="0.01" required>
+                </div>
+                <button type="submit">Mettre à Jour</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

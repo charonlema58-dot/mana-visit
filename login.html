@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManaVisit - Connexion | Zoo de Kinshasa</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            display: flex;
+            width: 90%;
+            max-width: 1000px;
+            height: 550px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .login-image {
+            flex: 1;
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-image h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f1c40f;
+        }
+
+        .login-image p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+
+        .login-logo p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        .forgot-password {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Modal de mot de passe oublié */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-title {
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 0.5rem;
+        }
+
+        .modal-message {
+            margin-bottom: 1.5rem;
+            color: #7f8c8d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                height: auto;
+                max-width: 400px;
+            }
+            
+            .login-image {
+                padding: 1.5rem;
+                min-height: 200px;
+            }
+            
+            .login-image h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-image">
+            <h1>ManaVisit</h1>
+            <p>Gestion des visiteurs - Jardin Zoologique de Kinshasa</p>
+        </div>
+        
+        <div class="login-form">
+            <div class="login-logo">
+                <h2>Connexion</h2>
+                <p>Accédez à votre tableau de bord</p>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Votre adresse email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="Votre mot de passe" required>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Se souvenir de moi</label>
+                    </div>
+                    
+                    <a href="#" class="forgot-password" id="forgot-password-link">Mot de passe oublié?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de mot de passe oublié -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h2 class="modal-title">Réinitialisation du mot de passe</h2>
+            
+            <p class="modal-message">Entrez votre adresse email pour recevoir les instructions de réinitialisation de votre mot de passe.</p>
+            
+            <form id="password-reset-form">
+                <div class="form-group">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" placeholder="Votre adresse email" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Envoyer les instructions</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Gestion de la modale de mot de passe oublié
+        document.addEventListener('DOMContentLoaded', function() {
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const passwordModal = document.getElementById('password-modal');
+            const closeModal = document.getElementById('close-modal');
+            const loginForm = document.getElementById('login-form');
+            const passwordResetForm = document.getElementById('password-reset-form');
+            
+            // Ouvrir la modale
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordModal.style.display = 'block';
+            });
+            
+            // Fermer la modale
+            closeModal.addEventListener('click', function() {
+                passwordModal.style.display = 'none';
+            });
+            
+            // Fermer la modale en cliquant à l'extérieur
+            window.addEventListener('click', function(e) {
+                if (e.target === passwordModal) {
+                    passwordModal.style.display = 'none';
+                }
+            });
+            
+            // Gestion de la soumission du formulaire de connexion
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Ici, vous ajouteriez normalement la logique d'authentification
+                console.log('Tentative de connexion avec:', email, password);
+                
+                // Redirection vers le tableau de bord (simulation)
+                alert('Connexion réussie! Redirection...');
+                window.location.href = 'dashboard.html'; // Remplacez par l'URL de votre tableau de bord
+            });
+            
+            // Gestion de la soumission du formulaide de réinitialisation
+            passwordResetForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('reset-email').value;
+                
+                // Ici, vous ajouteriez normalement la logique d'envoi d'email
+                console.log('Demande de réinitialisation pour:', email);
+                
+                // Message de confirmation
+                alert('Instructions envoyées à ' + email);
+                passwordModal.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
